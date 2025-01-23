@@ -25,6 +25,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String _emailError = '';
   String _passwordError = '';
   String _confirmPasswordError = '';
+  bool _emailused = false;
 
   @override
   void dispose() {
@@ -101,7 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: _email,
                 ),
                 // Error message for email
-                if (_emailError.isNotEmpty)
+                if (_emailError.isNotEmpty && _emailused == true)
                   Text(
                     _emailError,
                     style: TextStyle(color: Colors.red, fontSize: 14),
@@ -130,7 +131,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   obscureText: true,
                 ),
-
+                // Error message for confirm password
                 if (_confirmPasswordError.isNotEmpty)
                   Text(
                     _confirmPasswordError,
@@ -199,7 +200,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     if (_email.text.isEmpty) {
-      _emailError = 'Please enter your email.';
+      _emailError = "This email is already taken. Please use a different one.";
     }
 
     if (_password.text.isEmpty) {
@@ -243,7 +244,11 @@ class _SignUpPageState extends State<SignUpPage> {
       }
     } catch (e) {
       log("Error during registration: $e");
-      _showError("Registration failed: $e");
+      setState(() {
+        _emailError =
+            "This email is already taken. Please use a different one.";
+        _emailused = true;
+      });
     }
   }
 

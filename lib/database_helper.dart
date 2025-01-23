@@ -17,8 +17,8 @@ class DatabaseHelper {
     if (kIsWeb) {
       databaseFactory = databaseFactoryWeb;
     } else {
-      // Initialize for other platforms (e.g., desktop, mobile)
-      // databaseFactory = databaseFactoryMemory; // Adjust based on your requirement
+      
+      // databaseFactory = databaseFactoryMemory; 
     }
 
     _database = await _initDatabase();
@@ -30,6 +30,7 @@ class DatabaseHelper {
     final database = await databaseFactory.openDatabase(dbName);
     final postsStore = intMapStoreFactory.store('posts');
     final likesStore = intMapStoreFactory.store('likes');
+    final comment = intMapStoreFactory.store('comments');
     if (await postsStore.record(0).get(database) == null) {
       print("No posts in the database");
     }
